@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "team": "Our Team",
+    "contact": "Contact",
+    "bookAppointment": "Book Appointment",
+    "staffLogin": "Staff Login"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Trusted Care",
+      "headline": "Your Health, Our Priority",
+      "subheadline": "Compassionate, professional healthcare with modern scheduling and dedicated follow-up care.",
+      "cta": "Book an Appointment",
+      "ctaSecondary": "Meet Our Team"
+    },
+    "trust": {
+      "established": "Est. 2008",
+      "patients": "10,000+ Patients",
+      "providers": "Board-Certified Providers",
+      "availability": "6 Days a Week"
+    },
+    "services": {
+      "label": "What We Offer",
+      "title": "Comprehensive Care Services"
+    },
+    "team": {
+      "label": "Expert Care",
+      "title": "Meet Our Providers"
+    },
+    "booking": {
+      "label": "Easy Scheduling",
+      "title": "Book Your Visit in Minutes",
+      "description": "Choose a service, pick a time that works for you, and receive instant confirmation with automated reminders."
+    },
+    "faq": {
+      "label": "Questions",
+      "title": "Frequently Asked Questions"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "description": "We offer a wide range of medical services to meet all your healthcare needs.",
+    "duration": "Duration",
+    "bookNow": "Book Now"
+  },
+  "team": {
+    "title": "Our Medical Team",
+    "description": "Meet our experienced, board-certified healthcare providers.",
+    "bookWith": "Book with {name}"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Working Hours",
+    "sendMessage": "Send a Message",
+    "name": "Your Name",
+    "namePlaceholder": "Full name",
+    "emailField": "Email Address",
+    "emailPlaceholder": "your@email.com",
+    "message": "Message",
+    "messagePlaceholder": "How can we help you?",
+    "submit": "Send Message",
+    "successMessage": "Thank you! We'll get back to you soon.",
+    "errorMessage": "Something went wrong. Please try again."
+  },
+  "booking": {
+    "title": "Book an Appointment",
+    "step1": "Select Service",
+    "step2": "Choose Provider & Time",
+    "step3": "Your Details",
+    "step4": "Confirmation",
+    "selectService": "Select a service",
+    "selectProvider": "Select a provider (optional)",
+    "anyProvider": "Any available provider",
+    "selectDate": "Select a date",
+    "selectTime": "Select a time",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "notes": "Additional Notes",
+    "notesPlaceholder": "Any details we should know...",
+    "back": "Back",
+    "next": "Continue",
+    "confirm": "Confirm Appointment",
+    "confirmationTitle": "Appointment Confirmed",
+    "confirmationMessage": "Your appointment has been booked. You will receive a confirmation shortly.",
+    "noSlots": "No available slots for this date.",
+    "loading": "Loading available times...",
+    "reschedule": "Reschedule",
+    "cancel": "Cancel Appointment",
+    "cancelConfirm": "Are you sure you want to cancel this appointment?",
+    "cancelSuccess": "Appointment cancelled successfully.",
+    "rescheduleSuccess": "Appointment rescheduled successfully."
+  },
+  "dashboard": {
+    "title": "Appointments Dashboard",
+    "today": "Today",
+    "upcoming": "Upcoming",
+    "all": "All Appointments",
+    "status": {
+      "requested": "Requested",
+      "confirmed": "Confirmed",
+      "rescheduled": "Rescheduled",
+      "cancelled": "Cancelled",
+      "completed": "Completed",
+      "no_show": "No Show"
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "complete": "Mark Complete",
+      "noShow": "No Show",
+      "resendReminder": "Resend Reminder",
+      "cancel": "Cancel"
+    },
+    "patient": "Patient",
+    "service": "Service",
+    "provider": "Provider",
+    "dateTime": "Date & Time",
+    "noAppointments": "No appointments found.",
+    "filters": {
+      "all": "All",
+      "requested": "Requested",
+      "confirmed": "Confirmed",
+      "completed": "Completed"
+    }
+  },
+  "chatbot": {
+    "title": "How can we help?",
+    "placeholder": "Ask a question...",
+    "send": "Send",
+    "fallback": "I'm not sure about that. Please call us at {phone} or book an appointment online.",
+    "typing": "Typing..."
+  },
+  "footer": {
+    "tagline": "Compassionate healthcare you can trust.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again.",
+    "tryAgain": "Try Again",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "minutes": "{count} min",
+    "currency": "KD {amount}"
+  }
+}

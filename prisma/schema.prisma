@@ -1,0 +1,381 @@
+// Clinic Automation Demo Platform — Prisma Schema
+// Single-tenant MVP with clinic_id on all business tables for future multi-tenant migration
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ──────────────────────────────────────────
+// ENUMS
+// ──────────────────────────────────────────
+
+enum AppointmentStatus {
+  requested
+  confirmed
+  rescheduled
+  cancelled
+  completed
+  no_show
+}
+
+enum NotificationChannel {
+  email
+  sms
+  whatsapp
+}
+
+enum NotificationStatus {
+  pending
+  sent
+  delivered
+  failed
+  dead_letter
+}
+
+enum DayOfWeek {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+}
+
+enum AuditAction {
+  created
+  updated
+  deleted
+  status_changed
+  reminder_sent
+}
+
+// ──────────────────────────────────────────
+// CLINICS
+// ──────────────────────────────────────────
+
+model Clinic {
+  id        String   @id @default(cuid())
+  name      String
+  nameAr    String   @map("name_ar")
+  slug      String   @unique
+  phone     String
+  email     String
+  address   String
+  addressAr String   @map("address_ar")
+  timezone  String   @default("Asia/Kuwait")
+  logoUrl   String?  @map("logo_url")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  providers        Provider[]
+  services         Service[]
+  appointments     Appointment[]
+  patients         Patient[]
+  faqIntents       FaqIntent[]
+  notificationJobs NotificationJob[]
+  auditLogs        AuditLog[]
+
+  @@map("clinics")
+}
+
+// ──────────────────────────────────────────
+// PROVIDERS (Staff / Doctors)
+// ──────────────────────────────────────────
+
+model Provider {
+  id          String   @id @default(cuid())
+  clinicId    String   @map("clinic_id")
+  name        String
+  nameAr      String   @map("name_ar")
+  specialty   String
+  specialtyAr String   @map("specialty_ar")
+  bio         String?
+  bioAr       String?  @map("bio_ar")
+  photoUrl    String?  @map("photo_url")
+  email       String   @unique
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  clinic            Clinic                    @relation(fields: [clinicId], references: [id])
+  availabilityRules ProviderAvailabilityRule[]
+  timeOffBlocks     TimeOffBlock[]
+  appointments      Appointment[]
+  providerServices  ProviderService[]
+
+  @@index([clinicId])
+  @@map("providers")
+}
+
+// ──────────────────────────────────────────
+// SERVICES
+// ──────────────────────────────────────────
+
+model Service {
+  id              String   @id @default(cuid())
+  clinicId        String   @map("clinic_id")
+  name            String
+  nameAr          String   @map("name_ar")
+  description     String?
+  descriptionAr   String?  @map("description_ar")
+  durationMinutes Int      @map("duration_minutes")
+  price           Decimal? @db.Decimal(10, 3)
+  isActive        Boolean  @default(true) @map("is_active")
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  clinic           Clinic            @relation(fields: [clinicId], references: [id])
+  appointments     Appointment[]
+  providerServices ProviderService[]
+
+  @@index([clinicId])
+  @@map("services")
+}
+
+// ──────────────────────────────────────────
+// PROVIDER ↔ SERVICE JUNCTION
+// ──────────────────────────────────────────
+
+model ProviderService {
+  providerId String   @map("provider_id")
+  serviceId  String   @map("service_id")
+
+  provider Provider @relation(fields: [providerId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+
+  @@id([providerId, serviceId])
+  @@map("provider_services")
+}
+
+// ──────────────────────────────────────────
+// PROVIDER AVAILABILITY RULES
+// ──────────────────────────────────────────
+
+model ProviderAvailabilityRule {
+  id             String    @id @default(cuid())
+  providerId     String    @map("provider_id")
+  dayOfWeek      DayOfWeek @map("day_of_week")
+  startTime      String    @map("start_time")
+  endTime        String    @map("end_time")
+  breakStartTime String?   @map("break_start_time")
+  breakEndTime   String?   @map("break_end_time")
+  isActive       Boolean   @default(true) @map("is_active")
+  effectiveFrom  DateTime  @map("effective_from")
+  effectiveUntil DateTime? @map("effective_until")
+
+  provider Provider @relation(fields: [providerId], references: [id])
+
+  @@index([providerId])
+  @@map("provider_availability_rules")
+}
+
+// ──────────────────────────────────────────
+// TIME OFF BLOCKS
+// ──────────────────────────────────────────
+
+model TimeOffBlock {
+  id         String   @id @default(cuid())
+  providerId String   @map("provider_id")
+  startAt    DateTime @map("start_at")
+  endAt      DateTime @map("end_at")
+  reason     String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  provider Provider @relation(fields: [providerId], references: [id])
+
+  @@index([providerId, startAt])
+  @@map("time_off_blocks")
+}
+
+// ──────────────────────────────────────────
+// PATIENTS
+// ──────────────────────────────────────────
+
+model Patient {
+  id        String   @id @default(cuid())
+  clinicId  String   @map("clinic_id")
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  email     String
+  phone     String
+  locale    String   @default("en")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  clinic       Clinic        @relation(fields: [clinicId], references: [id])
+  appointments Appointment[]
+
+  @@index([clinicId, email])
+  @@map("patients")
+}
+
+// ──────────────────────────────────────────
+// APPOINTMENTS
+// ──────────────────────────────────────────
+
+model Appointment {
+  id              String            @id @default(cuid())
+  clinicId        String            @map("clinic_id")
+  patientId       String            @map("patient_id")
+  providerId      String            @map("provider_id")
+  serviceId       String            @map("service_id")
+  status          AppointmentStatus @default(requested)
+  scheduledAt     DateTime          @map("scheduled_at")
+  durationMinutes Int               @map("duration_minutes")
+  notes           String?
+  secureToken     String            @unique @map("secure_token")
+  idempotencyKey  String?           @unique @map("idempotency_key")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  clinic           Clinic              @relation(fields: [clinicId], references: [id])
+  patient          Patient             @relation(fields: [patientId], references: [id])
+  provider         Provider            @relation(fields: [providerId], references: [id])
+  service          Service             @relation(fields: [serviceId], references: [id])
+  events           AppointmentEvent[]
+  notificationJobs NotificationJob[]
+
+  @@index([clinicId, scheduledAt])
+  @@index([providerId, scheduledAt])
+  @@index([secureToken])
+  @@map("appointments")
+}
+
+// ──────────────────────────────────────────
+// APPOINTMENT EVENTS (state machine log)
+// ──────────────────────────────────────────
+
+model AppointmentEvent {
+  id            String             @id @default(cuid())
+  appointmentId String             @map("appointment_id")
+  fromStatus    AppointmentStatus? @map("from_status")
+  toStatus      AppointmentStatus  @map("to_status")
+  triggeredBy   String?            @map("triggered_by")
+  notes         String?
+  occurredAt    DateTime           @default(now()) @map("occurred_at")
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  @@index([appointmentId])
+  @@map("appointment_events")
+}
+
+// ──────────────────────────────────────────
+// NOTIFICATION JOBS
+// ──────────────────────────────────────────
+
+model NotificationJob {
+  id             String              @id @default(cuid())
+  clinicId       String              @map("clinic_id")
+  appointmentId  String              @map("appointment_id")
+  channel        NotificationChannel
+  triggerAt      DateTime            @map("trigger_at")
+  templateKey    String              @map("template_key")
+  idempotencyKey String              @unique @map("idempotency_key")
+  status         NotificationStatus  @default(pending)
+  attempts       Int                 @default(0)
+  maxAttempts    Int                 @default(3) @map("max_attempts")
+  lastAttemptAt  DateTime?           @map("last_attempt_at")
+  nextRetryAt    DateTime?           @map("next_retry_at")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+
+  clinic          Clinic                @relation(fields: [clinicId], references: [id])
+  appointment     Appointment           @relation(fields: [appointmentId], references: [id])
+  notifAttempts   NotificationAttempt[]
+
+  @@index([clinicId, status, triggerAt])
+  @@index([appointmentId])
+  @@map("notification_jobs")
+}
+
+// ──────────────────────────────────────────
+// NOTIFICATION ATTEMPTS
+// ──────────────────────────────────────────
+
+model NotificationAttempt {
+  id                String             @id @default(cuid())
+  jobId             String             @map("job_id")
+  status            NotificationStatus
+  externalMessageId String?            @map("external_message_id")
+  errorMessage      String?            @map("error_message")
+  responsePayload   Json?              @map("response_payload")
+  attemptedAt       DateTime           @default(now()) @map("attempted_at")
+
+  job NotificationJob @relation(fields: [jobId], references: [id])
+
+  @@index([jobId])
+  @@map("notification_attempts")
+}
+
+// ──────────────────────────────────────────
+// FAQ INTENTS
+// ──────────────────────────────────────────
+
+model FaqIntent {
+  id        String   @id @default(cuid())
+  clinicId  String   @map("clinic_id")
+  intentKey String   @map("intent_key")
+  keywords  String[]
+  isActive  Boolean  @default(true) @map("is_active")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  clinic  Clinic      @relation(fields: [clinicId], references: [id])
+  answers FaqAnswer[]
+
+  @@unique([clinicId, intentKey])
+  @@map("faq_intents")
+}
+
+// ──────────────────────────────────────────
+// FAQ ANSWERS
+// ──────────────────────────────────────────
+
+model FaqAnswer {
+  id        String   @id @default(cuid())
+  intentId  String   @map("intent_id")
+  locale    String   @default("en")
+  answer    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  intent FaqIntent @relation(fields: [intentId], references: [id], onDelete: Cascade)
+
+  @@unique([intentId, locale])
+  @@map("faq_answers")
+}
+
+// ──────────────────────────────────────────
+// AUDIT LOGS
+// ──────────────────────────────────────────
+
+model AuditLog {
+  id           String      @id @default(cuid())
+  clinicId     String      @map("clinic_id")
+  entityType   String      @map("entity_type")
+  entityId     String      @map("entity_id")
+  action       AuditAction
+  actorType    String      @map("actor_type")
+  actorId      String?     @map("actor_id")
+  previousData Json?       @map("previous_data")
+  newData      Json?       @map("new_data")
+  ipAddress    String?     @map("ip_address")
+  userAgent    String?     @map("user_agent")
+  occurredAt   DateTime    @default(now()) @map("occurred_at")
+
+  clinic Clinic @relation(fields: [clinicId], references: [id])
+
+  @@index([clinicId, entityType, entityId])
+  @@index([clinicId, occurredAt])
+  @@map("audit_logs")
+}

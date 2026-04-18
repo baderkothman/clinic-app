@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "services": "الخدمات",
+    "team": "فريقنا",
+    "contact": "تواصل معنا",
+    "bookAppointment": "احجز موعداً",
+    "staffLogin": "دخول الموظفين"
+  },
+  "home": {
+    "hero": {
+      "tagline": "رعاية موثوقة",
+      "headline": "صحتك أولويتنا",
+      "subheadline": "رعاية صحية متميزة واحترافية مع جدولة حديثة ومتابعة مخصصة.",
+      "cta": "احجز موعداً",
+      "ctaSecondary": "تعرف على فريقنا"
+    },
+    "trust": {
+      "established": "تأسست عام 2008",
+      "patients": "+10,000 مريض",
+      "providers": "أطباء معتمدون",
+      "availability": "6 أيام في الأسبوع"
+    },
+    "services": {
+      "label": "ما نقدمه",
+      "title": "خدمات رعاية شاملة"
+    },
+    "team": {
+      "label": "رعاية متخصصة",
+      "title": "تعرف على مقدمي الخدمة"
+    },
+    "booking": {
+      "label": "جدولة سهلة",
+      "title": "احجز زيارتك في دقائق",
+      "description": "اختر خدمة، وحدد وقتاً يناسبك، واستلم تأكيداً فورياً مع تذكيرات آلية."
+    },
+    "faq": {
+      "label": "أسئلة",
+      "title": "الأسئلة الشائعة"
+    }
+  },
+  "services": {
+    "title": "خدماتنا",
+    "description": "نقدم مجموعة واسعة من الخدمات الطبية لتلبية احتياجاتك الصحية.",
+    "duration": "المدة",
+    "bookNow": "احجز الآن"
+  },
+  "team": {
+    "title": "فريقنا الطبي",
+    "description": "تعرف على مقدمي الرعاية الصحية المتخصصين والمعتمدين لدينا.",
+    "bookWith": "احجز مع {name}"
+  },
+  "contact": {
+    "title": "تواصل معنا",
+    "address": "العنوان",
+    "phone": "الهاتف",
+    "email": "البريد الإلكتروني",
+    "hours": "ساعات العمل",
+    "sendMessage": "أرسل رسالة",
+    "name": "اسمك",
+    "namePlaceholder": "الاسم الكامل",
+    "emailField": "البريد الإلكتروني",
+    "emailPlaceholder": "بريدك@example.com",
+    "message": "الرسالة",
+    "messagePlaceholder": "كيف يمكننا مساعدتك؟",
+    "submit": "إرسال الرسالة",
+    "successMessage": "شكراً لك! سنتواصل معك قريباً.",
+    "errorMessage": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+  },
+  "booking": {
+    "title": "احجز موعداً",
+    "step1": "اختر الخدمة",
+    "step2": "اختر المزود والوقت",
+    "step3": "بياناتك",
+    "step4": "التأكيد",
+    "selectService": "اختر خدمة",
+    "selectProvider": "اختر المزود (اختياري)",
+    "anyProvider": "أي مزود متاح",
+    "selectDate": "اختر تاريخاً",
+    "selectTime": "اختر وقتاً",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "phone": "رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "notes": "ملاحظات إضافية",
+    "notesPlaceholder": "أي تفاصيل ينبغي أن نعرفها...",
+    "back": "رجوع",
+    "next": "متابعة",
+    "confirm": "تأكيد الموعد",
+    "confirmationTitle": "تم تأكيد الموعد",
+    "confirmationMessage": "تم حجز موعدك. ستتلقى تأكيداً قريباً.",
+    "noSlots": "لا توجد أوقات متاحة في هذا التاريخ.",
+    "loading": "جاري تحميل الأوقات المتاحة...",
+    "reschedule": "إعادة الجدولة",
+    "cancel": "إلغاء الموعد",
+    "cancelConfirm": "هل أنت متأكد من إلغاء هذا الموعد؟",
+    "cancelSuccess": "تم إلغاء الموعد بنجاح.",
+    "rescheduleSuccess": "تمت إعادة جدولة الموعد بنجاح."
+  },
+  "dashboard": {
+    "title": "لوحة المواعيد",
+    "today": "اليوم",
+    "upcoming": "القادمة",
+    "all": "جميع المواعيد",
+    "status": {
+      "requested": "مطلوب",
+      "confirmed": "مؤكد",
+      "rescheduled": "مُعاد جدولته",
+      "cancelled": "ملغى",
+      "completed": "مكتمل",
+      "no_show": "لم يحضر"
+    },
+    "actions": {
+      "confirm": "تأكيد",
+      "complete": "تحديد كمكتمل",
+      "noShow": "لم يحضر",
+      "resendReminder": "إعادة إرسال التذكير",
+      "cancel": "إلغاء"
+    },
+    "patient": "المريض",
+    "service": "الخدمة",
+    "provider": "المزود",
+    "dateTime": "التاريخ والوقت",
+    "noAppointments": "لا توجد مواعيد.",
+    "filters": {
+      "all": "الكل",
+      "requested": "مطلوب",
+      "confirmed": "مؤكد",
+      "completed": "مكتمل"
+    }
+  },
+  "chatbot": {
+    "title": "كيف يمكننا مساعدتك؟",
+    "placeholder": "اطرح سؤالاً...",
+    "send": "إرسال",
+    "fallback": "لست متأكداً من ذلك. يرجى الاتصال بنا على {phone} أو حجز موعد عبر الإنترنت.",
+    "typing": "يكتب..."
+  },
+  "footer": {
+    "tagline": "رعاية صحية رحيمة يمكنك الوثوق بها.",
+    "quickLinks": "روابط سريعة",
+    "contact": "تواصل معنا",
+    "rights": "جميع الحقوق محفوظة.",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "tryAgain": "حاول مرة أخرى",
+    "close": "إغلاق",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "minutes": "{count} دقيقة",
+    "currency": "{amount} د.ك"
+  }
+}
